@@ -1,16 +1,17 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import LoginForm from './components/LoginForm'
-import SignUpForm from './components/SignUpForm'
+import SignUpForm from '../components/SignUpForm'
+import Heading from '../components/heading'
 
-export default function Home() {
+const Register = () => {
   return (
     <>
       <main className='flex flex-col sm:flex-row w-full justify-center items-center min-h-screen text-[16px] font-poppins text-white bg-red-400 bg-cover bg-[url(../public/astra-plain-min.jpg)] sm:bg-[url(../public/astra-plain-min.jpg)]'>
-        <LoginForm />
+        <Heading />
+        <SignUpForm />
       </main>
     </>
   )
 }
+
+export default Register
