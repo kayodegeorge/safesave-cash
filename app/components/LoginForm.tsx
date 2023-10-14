@@ -1,101 +1,122 @@
-'use client'
+"use client";
 
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
-import { Logo } from './logo'
-import Link from 'next/link'
+import { signIn } from "next-auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Logo } from "./logo";
+import Link from "next/link";
+import { toast } from "sonner";
+import { z } from "zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+const SignInSchema = z.object({
+  userID: z.string(),
+  password: z.string(),
+});
+
+type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 const LoginForm = () => {
-  const validationSchema = yup.object().shape({
-    userName: yup.string().required('Username cannot be empty'),
-    password: yup.string().required('Password cannot be empty'),
-  })
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // get functions to build form with useForm() hook
-  const formOptions = { resolver: yupResolver(validationSchema) }
-  const { register, handleSubmit, formState } = useForm(formOptions)
-  const { errors } = formState as any
+  const formOptions = { resolver: zodResolver(SignInSchema) };
+  const { register, handleSubmit, formState } =
+    useForm<SignInSchemaType>(formOptions);
+  const { errors } = formState as any;
 
-  function onSubmit(data: any) {
-    alert('Thanks for signing up! You can now login.')
-    return false
-  }
+  const onSubmit = async (data: SignInSchemaType) => {
+    setLoading(true);
+    const res = await signIn("credentials", {
+      ...data,
+      callbackUrl: "/create",
+    });
+
+    if (res?.error) {
+      toast.error(res.error);
+    }
+    setLoading(false);
+  };
+
   return (
     <>
-      <div className='px-10 sm:px-20'>
+      <div className="px-10 sm:px-20">
         <Logo />
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='bg-white shadow-md rounded-lg px-8 pt-14 pb-8 mb-4 mt-4'
+          className="bg-white shadow-md rounded-lg px-8 pt-14 pb-8 mb-4 mt-4"
         >
-          <div className='mb-4 relative'>
-            <label className='sr-only' htmlFor='username'>
-              User Name
+          <div className="mb-4 relative">
+            <label className="sr-only" htmlFor="userID">
+              UserID
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-4 
                           font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                           ${errors.userName ? 'is-invalid' : ''}`}
-              id='username'
-              type='text'
-              {...register('userName')}
-              placeholder={errors.firstName ? '' : 'Username'}
-              autoComplete='given-name'
+                           ${errors.userID ? "is-invalid" : ""}`}
+              id="userID"
+              type="text"
+              {...register("userID")}
+              autoComplete="given-name"
             />
             <div
-              id='userNameErrorMessage'
-              aria-live='polite'
-              className='text-red-500 text-xs italic text-right font-bold'
+              id="userIDErrorMessage"
+              aria-live="polite"
+              className="text-red-500 text-xs italic text-right font-bold"
             >
-              {errors.userName?.message}
+              {errors.userID?.message}
             </div>
           </div>
 
-          <div className='mb-6 relative'>
-            <label className='sr-only' htmlFor='password'>
+          <div className="mb-6 relative">
+            <label className="sr-only" htmlFor="password">
               Password
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-4 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-               ${errors.password ? 'is-invalid' : ''}`}
-              id='password'
-              type='password'
-              {...register('password')}
-              placeholder={errors.password ? '' : 'Password'}
+               ${errors.password ? "is-invalid" : ""}`}
+              id="password"
+              type="password"
+              {...register("password")}
             />
             <div
-              aria-live='polite'
-              className='text-red-500 text-xs italic text-right font-bold'
+              aria-live="polite"
+              className="text-red-500 text-xs italic text-right font-bold"
             >
               {errors.password?.message}
             </div>
           </div>
-          <div className='flex items-center justify-between'>
-            <Link href='/createCustomer'>
-              <button
-                aria-describedby='termsAndConditions'
-                className='bg-orange-700 hover:bg-orange-300 text-white text-sm font-bold p-4 w-full rounded focus:outline-none focus:shadow-outline'
-                type='submit'
-              >
-                Login
-              </button>
-            </Link>
+
+          <div className="flex items-center justify-between">
+            <button
+              aria-describedby="termsAndConditions"
+              className="bg-orange-700 hover:bg-orange-300 text-white text-sm font-bold p-4 w-full rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              {loading ? "Loading..." : "Sign In"}
+            </button>
           </div>
+
           <p
-            id='termsAndConditions'
-            className='text-sm mb-4 text-center pt-4 text-gray-700 gap-4'
+            id="termsAndConditions"
+            className="text-sm mb-4 text-center pt-4 text-gray-700 gap-4"
           >
             Dont have an account?
-            <a href='/register' className='font-bold text-orange-700 space-y-2'>
+            <Link
+              href="/register"
+              className="font-bold text-orange-700 space-y-2"
+            >
               Register
-            </a>
+            </Link>
           </p>
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
