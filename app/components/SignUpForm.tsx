@@ -4,8 +4,20 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { Logo } from './logo'
+import { z } from 'zod'
+import { register } from '../backend'
+ const SignUpSchema = z.object({
+  email:z.string(),
+  password: z.string(),
+  phoneNumber: z.string(),
+  staffID: z.string(),
+  staffName: z.string(),
+  branch: z.string(),
+});
 
+export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 export const SignUpForm = () => {
+  
   const validationSchema = yup.object().shape({
     fullName: yup.string().required('First Name cannot be empty'),
     phoneNo: yup.string().required('Field cannot be empty'),
@@ -22,8 +34,8 @@ export const SignUpForm = () => {
   const formOptions = { resolver: yupResolver(validationSchema) }
   const { register, handleSubmit, formState } = useForm(formOptions)
   const { errors } = formState as any
-
   function onSubmit(data: any) {
+
     alert('Thanks for signing up! You can now login.')
     return false
   }

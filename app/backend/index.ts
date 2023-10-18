@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
+import { SignUpSchemaType } from "../components/SignUpForm";
 
 type LoginResponse = {
   status: boolean;
@@ -16,6 +17,12 @@ type LoginResponse = {
   };
   message: string;
 };
+
+type RegistrationResponse = {
+  status: boolean,
+  data: Array<any>,
+  message: string
+}
 
 export const API_URL = "https://astrapolarismfb.onrender.com/v1";
 
@@ -42,5 +49,10 @@ axios_server.interceptors.request.use(async (request) => {
 
 export async function login(data: Record<"password" | "userID", string>) {
   const res = await axios_server.post<LoginResponse>("/staff-login", data);
+  return res.data;
+}
+
+export async function register ( data: SignUpSchemaType) {
+  const res = await axios_server.post<RegistrationResponse>("/staff-registration", data);
   return res.data;
 }
