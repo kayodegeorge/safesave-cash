@@ -5,7 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { Logo } from './logo'
 import { z } from 'zod'
-import { register } from '../backend'
+import { registerStaff } from '../backend'
+import { zodResolver } from '@hookform/resolvers/zod'
  const SignUpSchema = z.object({
   email:z.string(),
   password: z.string(),
@@ -17,29 +18,18 @@ import { register } from '../backend'
 
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 export const SignUpForm = () => {
-  
-  const validationSchema = yup.object().shape({
-    fullName: yup.string().required('First Name cannot be empty'),
-    phoneNo: yup.string().required('Field cannot be empty'),
-    staffId: yup.string().required('Staff Id cannot be empty'),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpSchemaType>({
+    resolver: zodResolver(SignUpSchema),
+  });
 
-    email: yup
-      .string()
-      .required('Looks like this is not an email')
-      .email('this email address is invalid'),
-    password: yup.string().required('Password cannot be empty'),
-  })
-
-  // get functions to build form with useForm() hook
-  const formOptions = { resolver: yupResolver(validationSchema) }
-  const { register, handleSubmit, formState } = useForm(formOptions)
-  const { errors } = formState as any
-  function onSubmit(data: any) {
-
-    alert('Thanks for signing up! You can now login.')
-    return false
-  }
-
+  async function onSubmit(data: SignUpSchemaType) {
+    const response = await registerStaff(data)
+        console.log(response)
+}
   return (
     <>
       <div className='px-10 sm:px-20'>
@@ -50,16 +40,16 @@ export const SignUpForm = () => {
         >
           <div className='mb-4 relative'>
             <label className='sr-only' htmlFor='fullname'>
-              Full Name
+              Staff Name
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
                           font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                           ${errors.firstName ? 'is-invalid' : ''}`}
+                           ${errors.staffName ? 'is-invalid' : ''}`}
               id='fullname'
               type='text'
-              {...register('fullName')}
-              placeholder={errors.firstName ? '' : 'Full Name'}
+              {...register('staffName')}
+              placeholder={errors.staffName ? '' : 'Staff Name'}
               autoComplete='given-name'
             />
             <div
@@ -67,30 +57,50 @@ export const SignUpForm = () => {
               aria-live='polite'
               className='text-red-500 text-xs italic text-right font-bold'
             >
-              {errors.fullName?.message}
+              {errors.staffName?.message}
             </div>
           </div>
+          <div className='mb-4 relative'>
+            <label className='sr-only' htmlFor='staffId'>
+              Staff ID
+            </label>
+            <input
+              className={`shadow appearance-none border rounded w-full py-4 px-8 
+                          font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                           ${errors.staffID ? 'is-invalid' : ''}`}
+              id='fullname'
+              type='text'
+              {...register('staffID')}
+              placeholder={errors.staffID ? '' : 'Staff ID'}
+              autoComplete='given-name'
+            />
+            <div
+              id='fullNameErrorMessage'
+              aria-live='polite'
+              className='text-red-500 text-xs italic text-right font-bold'
+            >
+              {errors.staffID?.message}
+            </div>
+          </div>
+
           <div className='relative mb-4'>
-            <label className='sr-only' htmlFor='phoneNo'>
-              Phone No
+            <label className='sr-only' htmlFor='emailaddress'>
+             Phone Number
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-               ${errors.lastName ? 'is-invalid' : ''}`}
-              id='phoneNo'
+               ${errors.email ? 'is-invalid' : ''}`}
+              id='phoneNumber'
               type='number'
-              {...register('phoneNo')}
-              placeholder={errors.lastName ? '' : 'Phone No'}
-              autoComplete='family-name'
+              {...register('phoneNumber')}
+              placeholder={errors.phoneNumber ? '08019191919' : 'Phone Number'}
             />
-            <div
-              aria-live='polite'
-              className='text-red-500 text-xs italic text-right font-bold'
-            >
-              {errors.phoneNo?.message}
+            <div className='text-red-500 text-xs italic text-right font-bold'>
+              {errors.phoneNumber?.message}
             </div>
           </div>
+      
           <div className='relative mb-4'>
             <label className='sr-only' htmlFor='emailaddress'>
               Email Address
@@ -109,51 +119,51 @@ export const SignUpForm = () => {
               {errors.email?.message}
             </div>
           </div>
-          <div className='mb-6 relative'>
-            <label className='sr-only' htmlFor='password'>
-              Staff ID
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-4 px-8 
-              font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-               ${errors.password ? 'is-invalid' : ''}`}
-              id='staffId'
-              type='text'
-              {...register('staffId')}
-              placeholder={errors.password ? '' : 'Staff ID'}
-            />
-            <div
-              aria-live='polite'
-              className='text-red-500 text-xs italic text-right font-bold'
-            >
-              {errors.staffId?.message}
-            </div>
-          </div>
+    
           <div className='mb-6 relative text-black'>
             <select
               className='shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               name='Branch'
               id='branch'
-            >
-              {' '}
-              Input your branch
-              <option value='head'>Head Office</option>
-              <option value='head'>Onikolobo</option>
-              <option value='head'>Adigbe</option>
-              <option value='head'>Onikoko</option>
-              <option value='head'>Lafenwa</option>
-              <option value='head'>Obantoko</option>
-              <option value='head'>Kuto</option>
-              <option value='head'>Akute</option>
-              <option value='head'>Berger</option>
-              <option value='head'>Imeko</option>
-              <option value='head'>Ayetoro</option>
-              <option value='head'>Idi Ayunre</option>
-              <option value='head'>Obafe</option>
-              <option value='head'>Ota</option>
-              <option value='head'>Ogunmakin</option>
+            > 
+              <option value='headoffice'
+              {...register('branch')}
+              >Head Office</option>
+              <option
+                {...register('branch')} value='onikolobo'>Onikolobo</option>
+              <option 
+                {...register('branch')}value='adigbe'>Adigbe</option>
+              <option
+                {...register('branch')} value='onikoko'>Onikoko</option>
+              <option
+                {...register('branch')} value='lafenwa'>Lafenwa</option>
+              <option
+                {...register('branch')} value='obantoko'>Obantoko</option>
+              <option
+                {...register('branch')} value='kuto'>Kuto</option>
+              <option
+                {...register('branch')} value='akute'>Akute</option>
+              <option
+                {...register('branch')} value='berger'>Berger</option>
+              <option
+                {...register('branch')} value='imeko'>Imeko</option>
+              <option
+                {...register('branch')} value='ayetoro'>Ayetoro</option>
+              <option
+                {...register('branch')} value='idiayunre'>Idi Ayunre</option>
+              <option
+                {...register('branch')} value='obafe'>Obafe</option>
+              <option
+                {...register('branch')} value='ota'>Ota</option>
+              <option
+                {...register('branch')} value='ogunmakin'>Ogunmakin</option>
+             
             </select>
+            <div
+            aria-live='polite' className='text-red-500 text-xs italic text-right font-bold'>
+              {errors.branch?.message}
+            </div>
           </div>
           <div className='mb-6 relative'>
             <label className='sr-only' htmlFor='password'>
@@ -185,11 +195,10 @@ export const SignUpForm = () => {
             </button>
           </div>
           <p
-            id='termsAndConditions'
             className='text-sm mb-4 text-center pt-4 text-gray-700'
           >
             Already have an account?
-            <a href='/login' className='font-bold text-orange-700'>
+            <a href='/' className='font-bold text-orange-700'>
               Login
             </a>
           </p>

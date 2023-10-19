@@ -9,7 +9,7 @@ import Logo from "./logo";
 
 const validationSchema = z.object({
   customerFullName: z.string().nonempty("Name cannot be empty"),
-  password: z.string().nonempty("Password cannot be empty"),
+   dateOfBirth: z.string().nonempty("DOB cannnot be empty"),
   bvn: z
     .string()
     .min(11, "BVN cannot be empty or less than 11 characters")
@@ -31,11 +31,11 @@ const UploadBvnAndPic = () => {
     return false;
   }
 
-  const [file, setFile] = useState();
-  function handleChange(e: any) {
-    console.log(e.target.files);
-    // setFile(URL.createObjectURL(e.target.files[0]));
-  }
+  // const [file, setFile] = useState();
+  // function handleChange(e: any) {
+  //   console.log(e.target.files);
+  //   // setFile(URL.createObjectURL(e.target.files[0]));
+  // }
   return (
     <>
       <div className="px-10 sm:px-20">
@@ -48,30 +48,10 @@ const UploadBvnAndPic = () => {
             <h1 className="text-black font-semibold px-4 py-3">
               Customer Onboarding Portal
             </h1>
-            <label className="sr-only" htmlFor="username">
-              Full Name
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-4 px-4 
-                          font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                           ${errors.customerFullName ? "is-invalid" : ""}`}
-              id="customerFullName"
-              type="text"
-              {...register("customerFullName")}
-              placeholder={errors.customerFullName ? "" : "Customer Full Name"}
-              autoComplete="given-name"
-            />
-            <div
-              id="userNameErrorMessage"
-              aria-live="polite"
-              className="text-red-500 text-xs italic text-right font-bold"
-            >
-              {errors.customerFullName?.message}
             </div>
-          </div>
 
-          <div className="mb-6 relative">
-            <label className="sr-only" htmlFor="password">
+            <div className="mb-6 relative">
+            <label className="sr-only" htmlFor="bvn">
               BVN
             </label>
             <input
@@ -90,24 +70,37 @@ const UploadBvnAndPic = () => {
               {errors.bvn?.message}
             </div>
           </div>
-
-          <div className="">
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="file_input"
-            >
-              Upload Customer Picture
+         <div className="mb-6 relative">
+         <label className="sr-only" htmlFor="dob">
+              DOB
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-4 px-4 
-              font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="file_input"
-              type="file"
-              onChange={handleChange}
+              className={`shadow appearance-none border rounded w-full py-4 px-8 
+              font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+               ${errors.dateOfBirth ? "is-invalid" : ""}`}
+              id="dateOfBirth"
+              type="date"
+              {...register("dateOfBirth")}
+              placeholder={errors.dateOfBirth ? "" : "Enter Customer BVN"}
             />
-            <img src={file} alt="image preview" />
+            <small className="text-gray-400">Year-Month-Date</small>
+             <div
+              aria-live="polite"
+              className="text-red-500 text-xs italic text-right font-bold"
+            >
+              {errors.dateOfBirth?.message}
+            </div>
+         </div>
+          <div className="mb-6 relative">
+          <label htmlFor="gender" className="text-black">Input Gender</label>
+            <select name="" id="" className="hadow appearance-none border rounded w-full py-4 px-8 
+              font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
           </div>
 
+          
           <div className="flex items-center justify-between mt-5">
             <button
               aria-describedby="uploadDocuments"

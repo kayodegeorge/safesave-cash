@@ -52,7 +52,7 @@ export async function login(data: Record<"password" | "userID", string>) {
   return res.data;
 }
 
-export async function register ( data: SignUpSchemaType) {
+export async function registerStaff ( data: SignUpSchemaType) {
   const res = await axios_server.post<RegistrationResponse>("/staff-registration", data);
   return res.data;
 }
