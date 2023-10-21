@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { SignUpSchemaType } from "../components/SignUpForm";
+import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
 
 type LoginResponse = {
   status: boolean;
@@ -23,6 +24,9 @@ type RegistrationResponse = {
   data: Array<any>,
   message: string
 }
+
+type VerifyCustomerResponse = {
+  status: boolean }
 
 export const API_URL = "https://astrapolarismfb.onrender.com/v1";
 
@@ -55,4 +59,9 @@ export async function login(data: Record<"password" | "userID", string>) {
 export async function registerStaff ( data: SignUpSchemaType) {
   const res = await axios_server.post<RegistrationResponse>("/staff-registration", data);
   return res.data;
+}
+
+export async function verifyCustomer (data: VerifyCustomerSchemaType){
+  const res = await axios_server.post<VerifyCustomerResponse>("/verify-customer", data)
+  return res.data
 }

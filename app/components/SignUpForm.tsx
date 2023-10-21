@@ -7,17 +7,22 @@ import { Logo } from './logo'
 import { z } from 'zod'
 import { registerStaff } from '../backend'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
  const SignUpSchema = z.object({
-  email:z.string(),
+  email:z.string().nonempty("Field required"),
   password: z.string(),
-  phoneNumber: z.string(),
-  staffID: z.string(),
-  staffName: z.string(),
-  branch: z.string(),
+  phoneNumber: z.string().nonempty("Field required"),
+  staffID: z.string().nonempty("Field required"),
+  staffName: z.string().nonempty("Field required"),
+  branch: z.string().nonempty("Field required"),
 });
 
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 export const SignUpForm = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -28,8 +33,9 @@ export const SignUpForm = () => {
 
   async function onSubmit(data: SignUpSchemaType) {
     const response = await registerStaff(data)
-        console.log(response)
-}
+    console.log(response)
+    router.push('/create')
+  }
   return (
     <>
       <div className='px-10 sm:px-20'>

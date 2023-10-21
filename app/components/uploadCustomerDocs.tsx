@@ -4,31 +4,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import Logo from "./logo";
+import { useRouter } from "next/navigation";
+import { verifyCustomer } from "../backend";
 
-const validationSchema = z.object({
-  customerFullName: z.string().nonempty("Name cannot be empty"),
-   dateOfBirth: z.string().nonempty("DOB cannnot be empty"),
-  bvn: z
-    .string()
-    .min(11, "BVN cannot be empty or less than 11 characters")
-    .nonempty(),
-});
+const VerifyCustomerSchema = z.object({
+  bvn:z.string(),
+  dateOfBirth:z.string(),
+  gender:z.string()
+})
 
-type ValidationSchemaType = z.infer<typeof validationSchema>;
+export type VerifyCustomerSchemaType = z.infer<typeof VerifyCustomerSchema>
 
-const formOptions = { resolver: zodResolver(validationSchema) };
+
 
 const UploadBvnAndPic = () => {
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, formState } =
-    useForm<ValidationSchemaType>(formOptions);
-  const { errors } = formState;
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<VerifyCustomerSchemaType>({
+    resolver: zodResolver(VerifyCustomerSchema),
+  });
 
-  function onSubmit(data: any) {
-    alert("Details submitted");
-    return false;
+  async function onSubmit(data: VerifyCustomerSchemaType) {
+    const response = await verifyCustomer(data)
+    console.log(response)
+    router.push('/create')
   }
 
   // const [file, setFile] = useState();
@@ -92,7 +96,7 @@ const UploadBvnAndPic = () => {
             </div>
          </div>
           <div className="mb-6 relative">
-          <label htmlFor="gender" className="text-black">Input Gender</label>
+    
             <select name="" id="" className="hadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option value="Male">Male</option>
