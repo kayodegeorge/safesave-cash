@@ -26,7 +26,9 @@ type RegistrationResponse = {
 }
 
 type VerifyCustomerResponse = {
-  status: boolean }
+  status: boolean,
+data:any,
+message:string }
 
 export const API_URL = "https://astrapolarismfb.onrender.com/v1";
 
