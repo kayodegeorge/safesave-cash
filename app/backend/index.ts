@@ -9,7 +9,7 @@ type LoginResponse = {
     id: number;
     email: string;
     phoneNumber: string;
-    staffID: string;s
+    staffID: string;
     staffName: string;
     branch: string;
     sessionToken: string;

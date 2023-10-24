@@ -83,9 +83,9 @@ const UploadBvnAndPic = () => {
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
                ${errors.dateOfBirth ? "is-invalid" : ""}`}
               id="dateOfBirth"
-              type="date"
+              type="text"
               {...register("dateOfBirth")}
-              placeholder={errors.dateOfBirth ? "" : "Enter Customer BVN"}
+              placeholder={errors.dateOfBirth ? "" : "Enter Customer DOB"}
             />
             <small className="text-gray-400">Year-Month-Date</small>
              <div
