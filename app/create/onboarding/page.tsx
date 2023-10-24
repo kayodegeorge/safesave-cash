@@ -6,33 +6,59 @@ import { z } from "zod";
 
 import Logo from "@/app/components/logo";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { createAccount, registerCustomer } from "@/app/backend";
+import { useState } from "react";
 
 const validationSchema = z.object({
-  customerHomeAddress: z.string().nonempty("Field cannot be empty"),
-  staffBranch: z.string().nonempty("Field cannot be empty"),
-  customerPhoneNo: z
+  bvn: z.string().nonempty("Field cannot be empty"),
+  address: z.string().nonempty("Field cannot be empty"),
+  branch: z.string().nonempty("Field cannot be empty"),
+  phoneNumber: z
     .string()
     .min(11, "Must be at least 11 characters")
     .nonempty(),
 });
 
-type ValidationSchemaType = z.infer<typeof validationSchema>;
+export type ValidationSchemaType = z.infer<typeof validationSchema>;
 
-const formOptions = { resolver: zodResolver(validationSchema) };
 
 export default function OnboardingPage() {
+  const params = useSearchParams()
+  const bvn = params.get('bvn');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const { register, handleSubmit, formState } =
-    useForm<ValidationSchemaType>(formOptions);
+    useForm<ValidationSchemaType>({
+      defaultValues: {
+        bvn: bvn!, 
+        address: "",
+        phoneNumber: "",
+        branch: "",
+      },
+      resolver: zodResolver(validationSchema),
+    });
   const { errors } = formState;
 
-  const { data: session } = useSession();
 
-  function onSubmit(data: ValidationSchemaType) {
-    alert("Onboarding successful");
-    return false;
+  async function onSubmit(data: ValidationSchemaType) {
+    setLoading(true)
+    const registrationResponse = await registerCustomer(data)
+    if (registrationResponse.status) {
+      const res = await createAccount(bvn!)
+      if (res.status) {
+        alert("Onboarding successful");
+      } else {
+        setLoading(false);
+        setError(res.message)
+      }
+    } else {
+      setLoading(false);
+      setError(registrationResponse.message)
+    }
+
   }
-
-  console.log(session?.user?.name);
 
   return (
     <main className="flex flex-col sm:flex-row w-full justify-center items-center min-h-screen text-[16px] font-poppins text-white bg-red-400 bg-cover bg-[url(../public/astra-plain-min.jpg)] sm:bg-[url(../public/astra-plain-min.jpg)]">
@@ -47,14 +73,16 @@ export default function OnboardingPage() {
           </h1>
          
           <div className="mb-4 relative">
-            <label className="text-black" htmlFor="fullname">
+            <label className="text-black" htmlFor="bvn">
               BVN:
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-4 px-4 
-                          font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-4 px-4 
+                          font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                           ${errors.address ? "is-invalid" : ""}`}
+              id="bvn"
               type="text"
-              placeholder="2222222222"
+              {...register("bvn")}
               disabled
             />
           </div>
@@ -66,70 +94,75 @@ export default function OnboardingPage() {
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-4 
                           font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                           ${errors.customerHomeAddress ? "is-invalid" : ""}`}
-              id="customerHomeAddress"
+                           ${errors.address ? "is-invalid" : ""}`}
+              id="address"
               type="text"
-              {...register("customerHomeAddress")}
+              {...register("address")}
               placeholder={
-                errors.customerHomeAddress ? "" : "Customer Home Address"
+                errors.address ? "" : "Customer Home Address"
               }
               autoComplete="given-name"
             />
             <div
-              id="customerHomeAddressErrorMessage"
+              id="addressErrorMessage"
               aria-live="polite"
               className="text-red-500 text-xs italic text-right font-bold"
             >
-              {errors.customerHomeAddress?.message}
+              {errors.address?.message}
             </div>
           </div>
              
              <div className="mb-4 relative">
-              <label htmlFor="staffBranch">Branch</label>
+              <label htmlFor="branch">Branch</label>
               <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-               ${errors.staffBranch ? "is-invalid" : ""}`}
-              id="staffBranch"
+               ${errors.branch ? "is-invalid" : ""}`}
+              id="branch"
               type="text"
-              {...register("staffBranch")}
-              placeholder={errors.staffBranch ? "" : "Enter your branch"}
+              {...register("branch")}
+              placeholder={errors.branch ? "" : "Enter your branch"}
               autoComplete="family-name"
             />
              </div>
 
-          <div className="relative mb-4">
-            <label className="sr-only" htmlFor="customerPhoneNo">
+          <div className=" mb-4 relative">
+            <label className="sr-only" htmlFor="phoneNumber">
               Phone No
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-               ${errors.customerPhoneNo ? "is-invalid" : ""}`}
-              id="phoneNo"
+               ${errors.phoneNumber ? "is-invalid" : ""}`}
+              id="phoneNumber"
               type="number"
-              {...register("customerPhoneNo")}
-              placeholder={errors.customerPhoneNo ? "" : "Customer Phone Number"}
+              {...register("phoneNumber")}
+              placeholder={errors.phoneNumber ? "" : "Customer Phone Number"}
               autoComplete="family-name"
             />
             <div
               aria-live="polite"
               className="text-red-500 text-xs italic text-right font-bold"
             >
-              {errors.customerPhoneNo?.message}
+              {errors.phoneNumber?.message}
             </div>
           </div>
 
           <div className="flex items-center justify-between mt-5">
             <button
               className="bg-orange-700 hover:bg-orange-300 text-white text-sm font-bold p-4 w-full rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
             >
-              Register and Create Account
+               {loading ? "Loading..." : "Register and Create Account"}
             </button>
 
   
           </div>
+
+          {error&& 
+            <div className="text-red-500 text-xs italic text-right font-bold"
+            >{error}</div>
+          }
         </form>
       </div>
     </main>

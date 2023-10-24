@@ -20,29 +20,34 @@ export type VerifyCustomerSchemaType = z.infer<typeof VerifyCustomerSchema>
 
 const UploadBvnAndPic = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter()
   const {
     register,
     handleSubmit,
-    formState: { errors },
+      getValues,
+    formState: { errors,  },
   } = useForm<VerifyCustomerSchemaType>({
     resolver: zodResolver(VerifyCustomerSchema),
   });
 
   async function onSubmit(data: VerifyCustomerSchemaType) {
     console.log(data)
+    setLoading(true);
     const response = await verifyCustomer(data)
     console.log(response)
+
     if (response.status) {
-      router.push('/create/onboarding')
+      setLoading(true);
+      
+      router.push(`/create/onboarding?bvn=${getValues("bvn")}`)
+    } else {
+      setLoading(false);
+      setError("Customer not found")
     }
   }
 
-  // const [file, setFile] = useState();
-  // function handleChange(e: any) {
-  //   console.log(e.target.files);
-  //   // setFile(URL.createObjectURL(e.target.files[0]));
-  // }
+    console.log(error)
   return (
     <>
       <div className="px-10 sm:px-20">
@@ -114,9 +119,14 @@ const UploadBvnAndPic = () => {
               className="bg-orange-700 hover:bg-orange-300 text-white text-sm font-bold p-4 w-full rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Submit
+                            {loading ? "Loading..." : "Submit"}
+
             </button>
           </div>
+          {error&& 
+            <div className="text-red-500 text-xs italic text-right font-bold"
+            >{error}</div>
+          }
         </form>
       </div>
     </>

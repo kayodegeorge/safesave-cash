@@ -2,6 +2,7 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 import { SignUpSchemaType } from "../components/SignUpForm";
 import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
+import { ValidationSchemaType } from "../create/onboarding/page";
 
 type LoginResponse = {
   status: boolean;
@@ -65,5 +66,17 @@ export async function registerStaff ( data: SignUpSchemaType) {
 
 export async function verifyCustomer (data: VerifyCustomerSchemaType){
   const res = await axios_server.post<VerifyCustomerResponse>("/verify-customer", data)
+  return res.data
+}
+
+export async function createAccount (bvn: string){
+  const res = await axios_server.post<VerifyCustomerResponse>("/create-account", {
+    bvn: bvn
+  })
+  return res.data
+}
+
+export async function registerCustomer (data: ValidationSchemaType){
+  const res = await axios_server.post<VerifyCustomerResponse>("/customer-registration", data)
   return res.data
 }

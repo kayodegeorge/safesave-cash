@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation'
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 export const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter()
   const {
     register,
@@ -32,9 +33,16 @@ export const SignUpForm = () => {
   });
 
   async function onSubmit(data: SignUpSchemaType) {
+    setLoading(true);
     const response = await registerStaff(data)
     console.log(response)
-    router.push('/create')
+    
+    if (response.status) {
+      router.push('/login')
+    } else{
+      setError(response.message)
+    }
+    setLoading(false)
   }
   return (
     <>
@@ -197,9 +205,15 @@ export const SignUpForm = () => {
               className='bg-orange-700 hover:bg-orange-300 text-white text-sm font-bold p-4 w-full rounded focus:outline-none focus:shadow-outline'
               type='submit'
             >
-              SUBMIT
+              {loading ? "Loading..." : "Register as Staff"}
+
             </button>
           </div>
+          {error&& 
+            <div className="text-red-500 text-xs italic text-right font-bold"
+            >{error}</div>
+          }
+
           <p
             className='text-sm mb-4 text-center pt-4 text-gray-700'
           >
