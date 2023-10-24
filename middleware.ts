@@ -1,26 +1,32 @@
-import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+export { default } from "next-auth/middleware";
 
-export default async function middleware(req: NextRequest) {
-  // Get the pathname of the request (e.g. /, /protected)
-  const path = req.nextUrl.pathname;
+export const config = {
+  matcher: ["/", "/create/:path*"],
+};
 
-  // If it's the root path, just render it
-  if (path === "/") {
-    return NextResponse.next();
-  }
+// import { getToken } from "next-auth/jwt";
+// import { NextRequest, NextResponse } from "next/server";
 
-  const session = await getToken({
-    req,
-    // secret: process.env.NEXTAUTH_SECRET,
-  });
+// export default async function middleware(req: NextRequest) {
+//   // Get the pathname of the request (e.g. /, /protected)
+//   const path = req.nextUrl.pathname;
 
-  //   console.log(session);
+//   // If it's the root path, just render it
+//   if (path === "/") {
+//     return NextResponse.next();
+//   }
 
-  if (!session && path === "/create") {
-    return NextResponse.redirect(new URL("/", req.url));
-  } else if (session && (path === "/" || path === "/register")) {
-    return NextResponse.redirect(new URL("/create", req.url));
-  }
-  return NextResponse.next();
-}
+//   const session = await getToken({
+//     req,
+//     // secret: process.env.NEXTAUTH_SECRET,
+//   });
+
+//   //   console.log(session);
+
+//   if (!session && path === "/create") {
+//     return NextResponse.redirect(new URL("/", req.url));
+//   } else if (session && (path === "/" || path === "/register")) {
+//     return NextResponse.redirect(new URL("/create", req.url));
+//   }
+//   return NextResponse.next();
+// }

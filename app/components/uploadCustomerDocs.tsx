@@ -30,9 +30,12 @@ const UploadBvnAndPic = () => {
   });
 
   async function onSubmit(data: VerifyCustomerSchemaType) {
+    console.log(data)
     const response = await verifyCustomer(data)
     console.log(response)
-    router.push('/create')
+    if (response.status) {
+      router.push('/create/onboarding')
+    }
   }
 
   // const [file, setFile] = useState();
@@ -97,7 +100,7 @@ const UploadBvnAndPic = () => {
          </div>
           <div className="mb-6 relative">
     
-            <select name="" id="" className="hadow appearance-none border rounded w-full py-4 px-8 
+            <select id="" {...register("gender")} className="shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
