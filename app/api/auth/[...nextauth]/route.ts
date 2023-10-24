@@ -53,11 +53,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
       session.sessionToken = token.sessionToken as string;
       return session;
     },
-  },
-  pages: {
-    signIn: "/",
-    error: "/",
-  },
+  }
 };
 
 const handler = NextAuth(authOptions);
