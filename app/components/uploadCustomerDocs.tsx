@@ -9,14 +9,12 @@ import { useRouter } from "next/navigation";
 import { verifyCustomer } from "../backend";
 
 const VerifyCustomerSchema = z.object({
-  bvn:z.string(),
-  dateOfBirth:z.string(),
+  bvn:z.string().nonempty("BVN is required and must be valid"),
+  dateOfBirth:z.string().nonempty("Date of Birth is required and must be valid"),
   gender:z.string()
 })
 
 export type VerifyCustomerSchemaType = z.infer<typeof VerifyCustomerSchema>
-
-
 
 const UploadBvnAndPic = () => {
   const [loading, setLoading] = useState(false);
@@ -38,7 +36,7 @@ const UploadBvnAndPic = () => {
     console.log(response)
 
     if (response.status) {
-      setLoading(true);
+      setLoading(false);
       
       router.push(`/create/onboarding?bvn=${getValues("bvn")}`)
     } else {
@@ -62,9 +60,11 @@ const UploadBvnAndPic = () => {
             </h1>
             </div>
 
+            
+
             <div className="mb-6 relative">
-            <label className="sr-only" htmlFor="bvn">
-              BVN
+            <label className="text-gray-700 font-semibold" htmlFor="bvn">
+             Enter BVN
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
@@ -83,8 +83,8 @@ const UploadBvnAndPic = () => {
             </div>
           </div>
          <div className="mb-6 relative">
-         <label className="sr-only" htmlFor="dob">
-              DOB
+         <label className="text-gray-700 font-semibold" htmlFor="dob">
+             Enter DOB
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-8 
@@ -95,16 +95,17 @@ const UploadBvnAndPic = () => {
               {...register("dateOfBirth")}
               placeholder={errors.dateOfBirth ? "" : "Enter Customer DOB"}
             />
-            <small className="text-gray-400">Year-Month-Date</small>
+            
              <div
               aria-live="polite"
               className="text-red-500 text-xs italic text-right font-bold"
             >
               {errors.dateOfBirth?.message}
             </div>
+            <small className="text-gray-400">Year-Month-Date</small>
          </div>
           <div className="mb-6 relative">
-    
+              <label htmlFor="gender" className="text-gray-700 font-semibold">Enter Gender</label>
             <select id="" {...register("gender")} className="shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option value="Male">Male</option>

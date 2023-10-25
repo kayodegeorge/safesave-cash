@@ -8,7 +8,9 @@ import Logo from "@/app/components/logo";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { createAccount, registerCustomer } from "@/app/backend";
+import {IoMdArrowRoundBack} from 'react-icons/io'
 import { useState } from "react";
+import Link from "next/link";
 
 const validationSchema = z.object({
   bvn: z.string().nonempty("Field cannot be empty"),
@@ -61,20 +63,27 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="flex flex-col sm:flex-row w-full justify-center items-center min-h-screen text-[16px] font-poppins text-white bg-red-400 bg-cover bg-[url(../public/astra-plain-min.jpg)] sm:bg-[url(../public/astra-plain-min.jpg)]">
+    <main className="flex flex-col sm:flex-row w-full justify-center items-center min-h-screen text-[16px] font-poppins text-white bg-red-400 bg-cover bg-[url(../public/astra-masked.jpg)] sm:bg-[url(../public/astra-masked.jpg)]">
       <div className="px-10 sm:px-20">
         <Logo />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white shadow-md rounded-lg px-8 pt-14 pb-8 mb-4 mt-4"
         >
-          <h1 className="text-black font-semibold px-4 py-3">
+
+          <div className="text-gray-700 ">
+           <Link className="flex" href='/create'>
+           <IoMdArrowRoundBack size={22}/>
+            <h1>Back</h1>
+           </Link>
+          </div>
+          <h1 className=" font-semibold  flex justify-center text-center text-gray-700">
             Customer Onboarding Portal
           </h1>
          
           <div className="mb-4 relative">
-            <label className="text-black" htmlFor="bvn">
-              BVN:
+            <label className="text-gray-700 font-semibold" htmlFor="bvn">
+              BVN
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-4 
@@ -88,18 +97,18 @@ export default function OnboardingPage() {
           </div>
 
           <div className="mb-4 relative">
-            <label className="sr-only" htmlFor="address">
+            <label className="text-gray-700 font-semibold" htmlFor="address">
               Address
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-4 px-4 
+              className={`shadow appearance-none border rounded w-full py-4 px-8 
                           font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
                            ${errors.address ? "is-invalid" : ""}`}
               id="address"
               type="text"
               {...register("address")}
               placeholder={
-                errors.address ? "" : "Customer Home Address"
+                errors.address ? "" : ""
               }
               autoComplete="given-name"
             />
@@ -113,21 +122,21 @@ export default function OnboardingPage() {
           </div>
              
              <div className="mb-4 relative">
-              <label htmlFor="branch">Branch</label>
+              <label className="text-gray-700 font-semibold" htmlFor="branch">Branch</label>
               <input
-              className={`shadow appearance-none border rounded w-full py-4 px-8 
+              className={`shadow appearance-none border rounded w-full py-4 px-4 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline
                ${errors.branch ? "is-invalid" : ""}`}
               id="branch"
               type="text"
               {...register("branch")}
-              placeholder={errors.branch ? "" : "Enter your branch"}
+              placeholder={errors.branch ? "" : ""}
               autoComplete="family-name"
             />
              </div>
 
           <div className=" mb-4 relative">
-            <label className="sr-only" htmlFor="phoneNumber">
+            <label className="text-gray-700 font-semibold" htmlFor="phoneNumber">
               Phone No
             </label>
             <input
@@ -137,7 +146,7 @@ export default function OnboardingPage() {
               id="phoneNumber"
               type="number"
               {...register("phoneNumber")}
-              placeholder={errors.phoneNumber ? "" : "Customer Phone Number"}
+              placeholder={errors.phoneNumber ? "" : ""}
               autoComplete="family-name"
             />
             <div

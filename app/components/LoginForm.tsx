@@ -35,7 +35,7 @@ const LoginForm = () => {
     });
 
     if (res?.error) {
-      toast.error(res.error);
+      alert('Invalid credentials')
     }
     setLoading(false);
   };
@@ -50,8 +50,9 @@ const LoginForm = () => {
           className="bg-white shadow-md rounded-lg px-8 pt-14 pb-8 mb-4 mt-4"
         >
           <div className="mb-4 relative">
-            <label className="sr-only" htmlFor="userID">
-              UserID
+            <h1 className="text-gray-700 flex justify-center text-center mb-3 font-semibold">Please Login!</h1>
+            <label className="text-gray-700 font-semibold" htmlFor="staffID">
+              StaffID
             </label>
             <input
               className={`shadow appearance-none border rounded w-full py-4 px-4 
@@ -72,7 +73,7 @@ const LoginForm = () => {
           </div>
 
           <div className="mb-6 relative">
-            <label className="sr-only" htmlFor="password">
+            <label className="text-gray-700 font-semibold" htmlFor="password">
               Password
             </label>
             <input

@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
  const SignUpSchema = z.object({
   email:z.string().nonempty("Field required"),
-  password: z.string(),
+  password: z.string().nonempty("Password required"),
   phoneNumber: z.string().nonempty("Field required"),
   staffID: z.string().nonempty("Field required"),
   staffName: z.string().nonempty("Field required"),
@@ -38,7 +38,7 @@ export const SignUpForm = () => {
     console.log(response)
     
     if (response.status) {
-      router.push('/login')
+      router.push('/')
     } else{
       setError(response.message)
     }
@@ -52,7 +52,9 @@ export const SignUpForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className='bg-white shadow-md rounded-lg px-20 pt-16 pb-12 mb-8 mt-5'
         >
+
           <div className='mb-4 relative'>
+            <h1 className='text-gray-700 flex justify-center text-center mb-3 font-semibold'>Fill the form to Register </h1>
             <label className='sr-only' htmlFor='fullname'>
               Staff Name
             </label>
