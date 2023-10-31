@@ -63,7 +63,24 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="flex flex-col sm:flex-row w-full justify-center items-center min-h-screen text-[16px] font-poppins text-white bg-red-400 bg-cover bg-[url(../public/astra-masked.jpg)] sm:bg-[url(../public/astra-masked.jpg)]">
+
+    <main className="grid grid-cols-2 h-screen">
+    {/* left hand side */}
+    <div className="flex justify-center items-center bg-red-100">
+    {/* <Image
+        fill
+        className='max-h-full max-w-full'
+        src='/astra-masked.jpg'
+        alt='Astra bank'
+      /> */}
+     <div className="p-6 font-semibold text-blue-700">
+     <h1 className="text-2xl">SafeSave by AstraPolaris</h1>
+      <p className="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae pariatur vitae aut sapiente, inventore distinctio numquam soluta quasi hic exercitationem velit earum odio culpa obcaecati incidunt a amet, reiciendis explicabo.</p>
+     </div>
+    </div>
+    {/* right hand side */}
+    <div className='flex justify-center items-center bg-gray-100'>
+      <div className='p-4'>
       <div className="px-10 sm:px-20">
         <Logo />
         <form
@@ -174,6 +191,13 @@ export default function OnboardingPage() {
           }
         </form>
       </div>
-    </main>
+        <div className='mt-4 flex justify-center font-semibold text-gray-700'>
+     <p>PN: This platform is only designated for Astra-Polaris Marketers.</p>
+        
+        </div>
+      </div>
+    </div>
+</main>
+
   );
 }

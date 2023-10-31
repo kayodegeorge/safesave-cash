@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation'
 });
 
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
-export const SignUpForm = () => {
+export const  SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter()
@@ -50,12 +50,12 @@ export const SignUpForm = () => {
         <Logo />
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='bg-white shadow-md rounded-lg px-20 pt-16 pb-12 mb-8 mt-5'
+          className='bg-white shadow-md rounded-lg px-24 pt-16 pb-12 mb-8 mt-5'
         >
 
           <div className='mb-4 relative'>
             <h1 className='text-gray-700 flex justify-center text-center mb-3 font-semibold'>Fill the form to Register </h1>
-            <label className='sr-only' htmlFor='fullname'>
+            <label className='text-gray-700 font-semibold' htmlFor='fullname'>
               Staff Name
             </label>
             <input
@@ -77,7 +77,7 @@ export const SignUpForm = () => {
             </div>
           </div>
           <div className='mb-4 relative'>
-            <label className='sr-only' htmlFor='staffId'>
+            <label className='text-gray-700 font-semibold' htmlFor='staffId'>
               Staff ID
             </label>
             <input
@@ -100,7 +100,7 @@ export const SignUpForm = () => {
           </div>
 
           <div className='relative mb-4'>
-            <label className='sr-only' htmlFor='emailaddress'>
+            <label className='text-gray-700 font-semibold' htmlFor='emailaddress'>
              Phone Number
             </label>
             <input
@@ -118,7 +118,7 @@ export const SignUpForm = () => {
           </div>
       
           <div className='relative mb-4'>
-            <label className='sr-only' htmlFor='emailaddress'>
+            <label className='text-gray-700 font-semibold' htmlFor='emailaddress'>
               Email Address
             </label>
             <input
@@ -137,6 +137,7 @@ export const SignUpForm = () => {
           </div>
     
           <div className='mb-6 relative text-black'>
+            <label htmlFor="branch" className='text-gray-700 font-semibold'>Branch</label>
             <select
               className='shadow appearance-none border rounded w-full py-4 px-8 
               font-bold text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -182,7 +183,7 @@ export const SignUpForm = () => {
             </div>
           </div>
           <div className='mb-6 relative'>
-            <label className='sr-only' htmlFor='password'>
+            <label className='text-gray-700 font-semibold' htmlFor='password'>
               Password
             </label>
             <input
@@ -216,7 +217,8 @@ export const SignUpForm = () => {
             >{error}</div>
           }
 
-          <p
+         <div className="space-x-2">
+         <p
             className='text-sm mb-4 text-center pt-4 text-gray-700'
           >
             Already have an account?
@@ -224,6 +226,7 @@ export const SignUpForm = () => {
               Login
             </a>
           </p>
+         </div>
         </form>
       </div>
     </>

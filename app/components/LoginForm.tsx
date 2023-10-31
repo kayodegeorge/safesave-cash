@@ -50,7 +50,7 @@ const LoginForm = () => {
           className="bg-white shadow-md rounded-lg px-8 pt-14 pb-8 mb-4 mt-4"
         >
           <div className="mb-4 relative">
-            <h1 className="text-gray-700 flex justify-center text-center mb-3 font-semibold">Please Login!</h1>
+            <h1 className="text-gray-700 flex justify-center text-center mb-3 font-bold text-lg">Welcome Back</h1>
             <label className="text-gray-700 font-semibold" htmlFor="staffID">
               StaffID
             </label>
