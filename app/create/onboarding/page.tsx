@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import Logo from "@/app/components/logo";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -11,9 +10,11 @@ import { createAccount, registerCustomer } from "@/app/backend";
 import {IoMdArrowRoundBack} from 'react-icons/io'
 import { useState } from "react";
 import Link from "next/link";
+import LeftHandSide from "@/app/components/LeftHandSide";
+import { useRouter } from "next/navigation";
 
 const validationSchema = z.object({
-  bvn: z.string().nonempty("Field cannot be empty"),
+  bvn: z.string().nonempty("Field cannot be empty") .min(11, "Must be at least 11 characters"),
   address: z.string().nonempty("Field cannot be empty"),
   branch: z.string().nonempty("Field cannot be empty"),
   phoneNumber: z
@@ -30,7 +31,7 @@ export default function OnboardingPage() {
   const bvn = params.get('bvn');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const router = useRouter()
   const { register, handleSubmit, formState } =
     useForm<ValidationSchemaType>({
       defaultValues: {
@@ -38,6 +39,8 @@ export default function OnboardingPage() {
         address: "",
         phoneNumber: "",
         branch: "",
+        
+
       },
       resolver: zodResolver(validationSchema),
     });
@@ -47,10 +50,13 @@ export default function OnboardingPage() {
   async function onSubmit(data: ValidationSchemaType) {
     setLoading(true)
     const registrationResponse = await registerCustomer(data)
-    if (registrationResponse.status) {
-      const res = await createAccount(bvn!)
+    if (registrationResponse.status) { 
+      const res = await createAccount(bvn!, data)
+      console.log(res)
+      console.log(data)
       if (res.status) {
-        alert("Onboarding successful");
+     router.push('/customer-created')
+
       } else {
         setLoading(false);
         setError(res.message)
@@ -73,10 +79,7 @@ export default function OnboardingPage() {
         src='/astra-masked.jpg'
         alt='Astra bank'
       /> */}
-     <div className="p-6 font-semibold text-blue-700">
-     <h1 className="text-2xl">SafeSave by AstraPolaris</h1>
-      <p className="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae pariatur vitae aut sapiente, inventore distinctio numquam soluta quasi hic exercitationem velit earum odio culpa obcaecati incidunt a amet, reiciendis explicabo.</p>
-     </div>
+    <LeftHandSide/>
     </div>
     {/* right hand side */}
     <div className='flex justify-center items-center bg-gray-100'>

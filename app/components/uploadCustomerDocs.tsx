@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { verifyCustomer } from "../backend";
 
 const VerifyCustomerSchema = z.object({
-  bvn:z.string().nonempty("BVN is required and must be valid"),
+  bvn:z.string().nonempty("BVN is required and must be valid") .min(11, "Must be at least 11 characters"),
   dateOfBirth:z.string().nonempty("Date of Birth is required and must be valid"),
   gender:z.string()
 })

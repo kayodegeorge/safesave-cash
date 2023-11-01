@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
  const SignUpSchema = z.object({
   email:z.string().nonempty("Field required"),
-  password: z.string().nonempty("Password required"),
+  password: z.string().nonempty("Password required") .min(6, "Must be at least 6 characters"),
   phoneNumber: z.string().nonempty("Field required"),
   staffID: z.string().nonempty("Field required"),
   staffName: z.string().nonempty("Field required"),

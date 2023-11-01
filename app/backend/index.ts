@@ -31,6 +31,12 @@ type VerifyCustomerResponse = {
 data:any,
 message:string }
 
+type CreateAccountResponse={
+ status:boolean,
+ data:any,
+ message:string
+}
+
 export const API_URL = "https://astrapolarismfb.onrender.com/v1";
 
 export const axios_server = axios.create({
@@ -69,10 +75,10 @@ export async function verifyCustomer (data: VerifyCustomerSchemaType){
   return res.data
 }
 
-export async function createAccount (bvn: string){
-  const res = await axios_server.post<VerifyCustomerResponse>("/create-account", {
+export async function createAccount (bvn: string, data:CreateAccountResponse){
+  const res = await axios_server.post<CreateAccountResponse>("/create-account", {
     bvn: bvn
-  })
+  }, data)
   return res.data
 }
 
