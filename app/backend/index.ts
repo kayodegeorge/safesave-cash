@@ -4,6 +4,10 @@ import { SignUpSchemaType } from "../components/SignUpForm";
 import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
 import { ValidationSchemaType } from "../create/onboarding/page";
 
+export interface AllAccounts{
+  staffID: string;
+}
+
 type LoginResponse = {
   status: boolean;
   data: {
@@ -85,4 +89,9 @@ export async function createAccount (bvn: string, data:CreateAccountResponse){
 export async function registerCustomer (data: ValidationSchemaType){
   const res = await axios_server.post<VerifyCustomerResponse>("/customer-registration", data)
   return res.data
+}
+
+export async function getAllAccounts() {
+  const res = await axios_server.get<Array<AllAccounts>>("/get-all-accounts");
+  return res.data;
 }
