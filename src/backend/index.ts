@@ -4,6 +4,7 @@ import { ResetPasswordSchemaType } from '../components/ResetPasswordForm'
 import { SignUpSchemaType } from '../components/SignUpForm'
 import axios from 'axios'
 import { getSession } from 'next-auth/react'
+import { StaffVerificationSchemaType } from '../components/StaffVerification'
 // import { SignUpSchemaType } from "../components/SignUpForm";
 // import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
 // import { ValidationSchemaType } from "../create/onboarding/page";
@@ -54,6 +55,18 @@ type CreateAccountResponse = {
     ErrorDetails: any
     ResponseCode: any
   }
+  message: string
+}
+
+type VerifyStaffResponse = {
+  status: boolean
+  data: [
+    {
+      id: string
+      staffid: string
+      fullName: string
+    }
+  ]
   message: string
 }
 
@@ -128,6 +141,14 @@ export async function createAccount({
 export async function resetPassword(data: ResetPasswordSchemaType) {
   const res = await axios_server.put<ResetPasswordResponse>(
     '/reset-password',
+    data
+  )
+  return res.data
+}
+
+export async function verifyStaff(data: StaffVerificationSchemaType) {
+  const res = await axios_server.post<VerifyStaffResponse>(
+    '/verify-staff',
     data
   )
   return res.data

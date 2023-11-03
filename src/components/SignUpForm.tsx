@@ -11,7 +11,6 @@ import { registerStaff } from '../backend'
 import Logo from './Logo'
 
 const SignUpSchema = z.object({
-  email: z.string().min(1, { message: 'Field required' }),
   password: z.string().min(6, { message: 'Must be at least 6 characters' }),
   phoneNumber: z.string().min(1, { message: 'Field required' }),
   staffID: z.string().min(1, { message: 'Field required' }),
@@ -85,11 +84,19 @@ export const SignUpForm = () => {
 
       <div className='mt-4'>
         <label
-          className='block mb-2 text-sm font-medium text-gray-900'
+          className='block text-sm font-medium text-gray-900'
           htmlFor='staffID'
         >
           Staff ID
         </label>
+        <small className='mb-2 font-semibold'>
+          if you do not know your details,{' '}
+          <span>
+            <Link className='text-orange-700' href='/'>
+              retreive{' '}
+            </Link>
+          </span>
+        </small>
 
         <input
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
@@ -125,29 +132,6 @@ export const SignUpForm = () => {
         {errors.phoneNumber?.message && (
           <div className='text-red-500 text-xs text-right font-medium'>
             {errors.phoneNumber?.message}
-          </div>
-        )}
-      </div>
-
-      <div className='mt-4'>
-        <label
-          className='block mb-2 text-sm font-medium text-gray-900'
-          htmlFor='email'
-        >
-          Email
-        </label>
-
-        <input
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
-          id='email'
-          type='text'
-          placeholder='Enter Email'
-          {...register('email')}
-        />
-
-        {errors.email?.message && (
-          <div className='text-red-500 text-xs text-right font-medium'>
-            {errors.email?.message}
           </div>
         )}
       </div>

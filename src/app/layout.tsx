@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import './globals.css'
 
 import Providers from '../components/Providers'
+import StaffVerification from '../components/StaffVerification'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -34,12 +35,18 @@ export default async function RootLayout({
                 <h1 className='text-2xl'>SafeSave by AstraPolaris</h1>
 
                 <p className='mt-5'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Beatae pariatur vitae aut sapiente, inventore distinctio
-                  numquam soluta quasi hic exercitationem velit earum odio culpa
-                  obcaecati incidunt a amet, reiciendis explicabo.
+                  This is an online SafeSave Cash option that allow the marketer
+                  to onboard a new customer on the go. You will need to register
+                  your details by getting your staff name. So you will then
+                  login and register a new customer. By entering their BVN, Date
+                  of Birth and Gender it will create the account and the new
+                  customer will receive their account no. You can then begin
+                  daily collection from them and perhaps post on MBM app for
+                  them. - Innovation and Tech Team.
                 </p>
               </div>
+
+              <StaffVerification />
             </div>
 
             <div className='h-full relative'>{children}</div>

@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import Logo from './Logo'
+import StaffVerification from './StaffVerification'
 
 const SignInSchema = z.object({
   userID: z
@@ -131,6 +132,8 @@ const LoginForm = () => {
           Register
         </Link>
       </p>
+
+     
     </form>
   )
 }
