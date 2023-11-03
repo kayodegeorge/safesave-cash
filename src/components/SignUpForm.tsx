@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import { registerStaff } from '../backend'
 import Logo from './Logo'
+import { useState } from 'react'
 
 const SignUpSchema = z.object({
   password: z.string().min(6, { message: 'Must be at least 6 characters' }),
@@ -21,6 +22,7 @@ const SignUpSchema = z.object({
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>
 
 export const SignUpForm = () => {
+  const [modalOpen, setModalOpen] = useState(false)
   const router = useRouter()
   const {
     register,
@@ -91,11 +93,7 @@ export const SignUpForm = () => {
         </label>
         <small className='mb-2 font-semibold'>
           if you do not know your details,{' '}
-          <span>
-            <Link className='text-orange-700' href='/'>
-              retreive{' '}
-            </Link>
-          </span>
+          <span className='text-orange-700'>retreive </span>
         </small>
 
         <input

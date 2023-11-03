@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import useOutsideClick from '../hooks/useOutsideClick'
 import { cn } from '../utils'
 
 type Props = {
@@ -8,6 +10,15 @@ type Props = {
 }
 
 const Modal = ({ children, closeModal, modalOpen, locked }: Props) => {
+  const ref = useRef(null)
+  useOutsideClick(ref, () => {
+    if (modalOpen) {
+      if (!locked) {
+        closeModal()
+      }
+    }
+  })
+
   return (
     <div
       className={cn(
