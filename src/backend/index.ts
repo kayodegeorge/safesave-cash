@@ -1,5 +1,6 @@
 import { ValidationSchemaType } from '../components/CustomerRegistrationForm'
 import { VerifyCustomerSchemaType } from '../components/CustomerVerificationForm'
+import { ResetPasswordSchemaType } from '../components/ResetPasswordForm'
 import { SignUpSchemaType } from '../components/SignUpForm'
 import axios from 'axios'
 import { getSession } from 'next-auth/react'
@@ -32,6 +33,12 @@ type RegistrationResponse = {
 type VerifyCustomerResponse = {
   status: boolean
   data: any
+  message: string
+}
+
+type ResetPasswordResponse = {
+  status: boolean
+  data: Array<any>
   message: string
 }
 
@@ -114,6 +121,14 @@ export async function createAccount({
   const res = await axios_server.post<CreateAccountResponse>(
     '/create-account',
     { bvn: bvn, address: address, phoneNumber: phoneNumber }
+  )
+  return res.data
+}
+
+export async function resetPassword(data: ResetPasswordSchemaType) {
+  const res = await axios_server.put<ResetPasswordResponse>(
+    '/reset-password',
+    data
   )
   return res.data
 }
