@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { GrStatusGood } from 'react-icons/gr'
 import Link from 'next/link'
 import Modal from './Modal'
+import { FaTimes } from 'react-icons/fa'
 
 const StaffVerificationSchema = z.object({
   fullname: z.string().min(1, { message: 'Enter your full name' }),
@@ -58,6 +59,17 @@ const StaffVerification = () => {
   }
   return (
     <>
+      <p className='mt-3 text-sm text-center text-gray-700 '>
+        If you do not know your details,{' '}
+        <span
+          onClick={() => {
+            setModalOpen(true)
+          }}
+          className='text-orange-700 cursor-pointer font-semibold'
+        >
+          Retreive{' '}
+        </span>
+      </p>
       <Modal
         modalOpen={modalOpen}
         closeModal={() => {
@@ -68,6 +80,13 @@ const StaffVerification = () => {
           onSubmit={handleSubmit(onSubmit)}
           className='w-full max-w-md bg-white shadow-md rounded-lg p-8'
         >
+          <FaTimes
+            size={25}
+            className='absolute right-8 mb-2 cursor-pointer'
+            onClick={() => {
+              setModalOpen(false)
+            }}
+          />
           <Logo />
           <div className='mb-4 relative'>
             <h2 className='text-gray-700 mb-4 font-bold text-lg'>

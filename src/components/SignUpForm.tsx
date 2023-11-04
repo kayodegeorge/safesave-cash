@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { registerStaff } from '../backend'
 import Logo from './Logo'
 import { useState } from 'react'
+import StaffVerification from './StaffVerification'
 
 const SignUpSchema = z.object({
   password: z.string().min(6, { message: 'Must be at least 6 characters' }),
@@ -91,10 +92,6 @@ export const SignUpForm = () => {
         >
           Staff ID
         </label>
-        <small className='mb-2 font-semibold'>
-          if you do not know your details,{' '}
-          <span className='text-orange-700'>retreive </span>
-        </small>
 
         <input
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
@@ -212,6 +209,8 @@ export const SignUpForm = () => {
           Login
         </Link>
       </p>
+
+      <StaffVerification />
     </form>
   )
 }

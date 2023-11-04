@@ -45,8 +45,6 @@ export default async function RootLayout({
                   them. - Innovation and Tech Team.
                 </p>
               </div>
-
-              <StaffVerification />
             </div>
 
             <div className='h-full relative'>{children}</div>
