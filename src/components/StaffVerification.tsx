@@ -60,7 +60,7 @@ const StaffVerification = () => {
           onClick={() => {
             setModalOpen(true)
           }}
-          className='text-orange-700 cursor-pointer font-semibold'
+          className='text-orange-700 cursor-pointer font-bold '
         >
           Retreive{' '}
         </span>

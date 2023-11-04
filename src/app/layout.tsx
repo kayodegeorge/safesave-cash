@@ -35,14 +35,23 @@ export default async function RootLayout({
                 <h1 className='text-2xl'>SafeSave by AstraPolaris</h1>
 
                 <p className='mt-5'>
-                  This is an online SafeSave Cash option that allow the marketer
-                  to onboard a new customer on the go. You will need to register
-                  your details by getting your staff name. So you will then
-                  login and register a new customer. By entering their BVN, Date
-                  of Birth and Gender it will create the account and the new
-                  customer will receive their account no. You can then begin
-                  daily collection from them and perhaps post on MBM app for
-                  them. - Innovation and Tech Team.
+                  Introducing SafeSave Cash, an advanced online platform
+                  developed by the Innovation and Technology Team at Astra
+                  Polaris Microfinance Bank. This cutting-edge solution empowers
+                  marketers to seamlessly onboard new customers on-the-go,
+                  ensuring a swift and hassle-free registration process. <br />{' '}
+                  To initiate, kindly provide your staff credentials for
+                  registration. Upon successful login, you can effortlessly
+                  register a new customer by inputting their essential details
+                  including BVN, Date of Birth, and Gender. This seamless
+                  process will promptly generate a unique account number for the
+                  new customer. <br /> With SafeSave Cash, you gain the
+                  convenience of initiating daily collections, while also having
+                  the option to effortlessly post updates on the MBM app for
+                  your customers. Experience efficiency and simplicity like
+                  never before with SafeSave Cash, brought to you by Astra
+                  Polaris Microfinance Bank's dedicated Innovation and
+                  Technology Team.{' '}
                 </p>
               </div>
             </div>
