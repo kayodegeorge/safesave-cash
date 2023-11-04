@@ -1,6 +1,6 @@
 'use client'
 
-import { verifyStaff } from '../backend'
+import { verifyCustomer, verifyStaff } from '../backend'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -8,7 +8,10 @@ import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import Logo from './Logo'
+import StaffDetailsModal from './StaffDetailsModal'
 import { useState } from 'react'
+import { GrStatusGood } from 'react-icons/gr'
+import Link from 'next/link'
 import Modal from './Modal'
 import { FaTimes } from 'react-icons/fa'
 
@@ -19,11 +22,6 @@ const StaffVerificationSchema = z.object({
 export type StaffVerificationSchemaType = z.infer<
   typeof StaffVerificationSchema
 >
-
-type Props = {
-  modalOpen: boolean
-  closeModal: () => void
-}
 
 const StaffVerification = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -56,7 +54,7 @@ const StaffVerification = () => {
   }
   return (
     <>
-      <p className='mt-3 text-sm text-center text-gray-700 '>
+      <p className='mt-3 text-sm text-center text-gray-700'>
         If you do not know your details,{' '}
         <span
           onClick={() => {
@@ -67,6 +65,7 @@ const StaffVerification = () => {
           Retreive{' '}
         </span>
       </p>
+
       <Modal
         modalOpen={modalOpen}
         closeModal={() => {
@@ -75,11 +74,11 @@ const StaffVerification = () => {
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full max-w-md bg-white shadow-md rounded-lg p-8'
+          className='relative w-full max-w-4xl bg-white shadow-md rounded-lg p-8'
         >
           <FaTimes
             size={25}
-            className='absolute right-8 mb-2 cursor-pointer'
+            className='absolute right-8 mb-2 text-orange-600 cursor-pointer'
             onClick={() => {
               setModalOpen(false)
             }}
@@ -87,7 +86,7 @@ const StaffVerification = () => {
           <Logo />
           <div className='mb-4 relative'>
             <h2 className='text-gray-700 mb-4 font-bold text-lg'>
-              Retreive your staff ID
+              Retreive your Staff ID
             </h2>
 
             <div>
@@ -102,7 +101,7 @@ const StaffVerification = () => {
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
                 id='bvn'
                 type='text'
-                placeholder='Enter your full name'
+                placeholder="Enter Customer's BVN"
                 {...register('fullname')}
               />
 
@@ -126,7 +125,7 @@ const StaffVerification = () => {
                 )}
               </button>
             </div>
-            <div className='mt-4 mb-3 font-semibold text-gray-700'>
+            <div className='mt-3 mb-3 font-semibold text-gray-700'>
               <p>Your details are:</p>
               <p className='mb-3'>
                 Full Name: {mutation.data?.data[0].fullName}
