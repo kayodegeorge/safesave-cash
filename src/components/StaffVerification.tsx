@@ -1,6 +1,6 @@
 'use client'
 
-import { verifyCustomer, verifyStaff } from '../backend'
+import { verifyStaff } from '../backend'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -8,10 +8,7 @@ import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import Logo from './Logo'
-import StaffDetailsModal from './StaffDetailsModal'
 import { useState } from 'react'
-import { GrStatusGood } from 'react-icons/gr'
-import Link from 'next/link'
 import Modal from './Modal'
 import { FaTimes } from 'react-icons/fa'
 
@@ -105,7 +102,7 @@ const StaffVerification = () => {
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
                 id='bvn'
                 type='text'
-                placeholder="Enter Customer's BVN"
+                placeholder='Enter your full name'
                 {...register('fullname')}
               />
 
@@ -129,7 +126,7 @@ const StaffVerification = () => {
                 )}
               </button>
             </div>
-            <div className='mt-3 mb-3 font-semibold text-gray-700'>
+            <div className='mt-4 mb-3 font-semibold text-gray-700'>
               <p>Your details are:</p>
               <p className='mb-3'>
                 Full Name: {mutation.data?.data[0].fullName}
