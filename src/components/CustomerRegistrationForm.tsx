@@ -214,7 +214,9 @@ const CustomerRegistrationForm = () => {
             <span className='text-5xl text-green-600'>
               <GrStatusGood />
             </span>
-            <p>A/C is {secondMutation.data?.data.Payload.Name}</p>
+            <p className='mt-3 font-semibold'>
+              A/C is {secondMutation.data?.data.Payload.Name}
+            </p>
 
             <Link href='/verify' className='text-orange-400 underline'>
               Back to Home

@@ -50,8 +50,8 @@ export default async function RootLayout({
                   the option to effortlessly post updates on the MBM app for
                   your customers. Experience efficiency and simplicity like
                   never before with SafeSave Cash, brought to you by Astra
-                  Polaris Microfinance Bank's dedicated Innovation and
-                  Technology Team.{' '}
+                  Polaris Microfinance Banks dedicated Innovation and Technology
+                  Team.{' '}
                 </p>
               </div>
             </div>

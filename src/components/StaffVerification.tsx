@@ -1,6 +1,6 @@
 'use client'
 
-import { verifyCustomer, verifyStaff } from '../backend'
+import { verifyStaff } from '../backend'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -8,10 +8,7 @@ import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import Logo from './Logo'
-import StaffDetailsModal from './StaffDetailsModal'
 import { useState } from 'react'
-import { GrStatusGood } from 'react-icons/gr'
-import Link from 'next/link'
 import Modal from './Modal'
 import { FaTimes } from 'react-icons/fa'
 
@@ -25,8 +22,6 @@ export type StaffVerificationSchemaType = z.infer<
 
 const StaffVerification = () => {
   const [modalOpen, setModalOpen] = useState(false)
-  const params = useSearchParams()
-  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -126,7 +121,7 @@ const StaffVerification = () => {
               </button>
             </div>
             <div className='mt-3 mb-3 font-semibold text-gray-700'>
-              <p>Your details are:</p>
+              <p>Your details are -</p>
               <p className='mb-3'>
                 Full Name: {mutation.data?.data[0].fullName}
               </p>
