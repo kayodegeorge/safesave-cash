@@ -49,17 +49,19 @@ const StaffVerification = () => {
   }
   return (
     <>
-      <p className='mt-3 text-sm text-center text-gray-700'>
-        If you do not know your details,{' '}
-        <span
-          onClick={() => {
-            setModalOpen(true)
-          }}
-          className='text-orange-700 cursor-pointer font-bold '
-        >
-          Retreive{' '}
-        </span>
-      </p>
+      {/* <div className=''>
+        <div className='mt-3 text-sm text-center text-gray-700'>
+          If you do not know your details,{' '}
+          <span
+            onClick={() => {
+              setModalOpen(true)
+            }}
+            className='text-orange-700 cursor-pointer font-bold '
+          >
+            Retreive{' '}
+          </span>
+        </div>
+      </div> */}
 
       <Modal
         modalOpen={modalOpen}
@@ -96,7 +98,7 @@ const StaffVerification = () => {
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50'
                 id='bvn'
                 type='text'
-                placeholder="Enter Customer's BVN"
+                placeholder='Enter your full name'
                 {...register('fullname')}
               />
 
