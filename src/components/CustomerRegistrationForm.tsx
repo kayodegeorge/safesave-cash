@@ -95,6 +95,7 @@ const CustomerRegistrationForm = ({
           <div className='p-3 font-semibold'>
             <div>Customer Info:</div>
             <div>
+              <p className='mt-3'>Full Name: {customerData.fullname}</p>
               <Image
                 src={customerData.foto}
                 alt={`${customerData.fullname}'s image`}
@@ -102,12 +103,11 @@ const CustomerRegistrationForm = ({
                 height={90}
                 className='mt-3'
               />
-              <p className='mt-3'>{customerData.fullname}</p>
             </div>
           </div>
         ) : null}
 
-        <div className='mb-4 relative'>
+        <div className='mb-6 relative'>
           <h2 className='text-gray-700 mb-4 font-bold text-lg'>
             Create Customer Account
           </h2>
