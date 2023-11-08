@@ -210,6 +210,13 @@ export const SignUpForm = () => {
         </Link>
       </p>
 
+      <p className='text-sm text-center mt-4 text-gray-700'>
+        Do not know staff details?{' '}
+        <Link href='/retrieve' className='font-bold text-orange-700'>
+          Retrieve
+        </Link>
+      </p>
+
       <StaffVerification />
     </form>
   )

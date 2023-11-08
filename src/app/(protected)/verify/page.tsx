@@ -1,32 +1,32 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 
-import CustomerVerificationForm from "@/src/components/CustomerVerificationForm";
-import CustomerRegistrationForm from "@/src/components/CustomerRegistrationForm";
-import { VerifyCustomerResponse } from "@/src/backend";
+import CustomerVerificationForm from '@/src/components/CustomerVerificationForm'
+import CustomerRegistrationForm from '@/src/components/CustomerRegistrationForm'
+import { VerifyCustomerResponse } from '@/src/backend'
 
 const VerifyCustomer = () => {
-  const [activeStep, setActiveStep] = useState(2);
-  const [bvn, setBvn] = useState("");
+  const [activeStep, setActiveStep] = useState(1)
+  const [bvn, setBvn] = useState('')
   const [customerData, setCustomerData] = useState<
-    VerifyCustomerResponse["data"] | null
-  >(null);
+    VerifyCustomerResponse['data'] | null
+  >(null)
 
   function goToNextStep() {
-    setActiveStep(activeStep + 1);
+    setActiveStep(activeStep + 1)
   }
 
   function goToPrevStep() {
-    setActiveStep(activeStep - 1);
+    setActiveStep(activeStep - 1)
   }
 
   function updateCustomerData(
     bvn: string,
-    data: VerifyCustomerResponse["data"]
+    data: VerifyCustomerResponse['data']
   ) {
-    setBvn(bvn);
-    setCustomerData(data);
+    setBvn(bvn)
+    setCustomerData(data)
   }
 
   const contentToRender = (step: number) => {
@@ -38,7 +38,7 @@ const VerifyCustomer = () => {
             goToNextStep={goToNextStep}
             updateCustomerData={updateCustomerData}
           />
-        );
+        )
       case 2:
         return (
           <CustomerRegistrationForm
@@ -47,15 +47,15 @@ const VerifyCustomer = () => {
             goToPrevStep={goToPrevStep}
             customerData={customerData}
           />
-        );
+        )
     }
-  };
+  }
 
   return (
-    <div className="h-full flex items-center justify-center bg-gray-100 px-4 lg:px-8">
+    <div className='h-full flex items-center justify-center bg-gray-100 px-4 lg:px-8'>
       {contentToRender(activeStep)}
     </div>
-  );
-};
+  )
+}
 
-export default VerifyCustomer;
+export default VerifyCustomer
