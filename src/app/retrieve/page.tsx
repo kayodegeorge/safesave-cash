@@ -13,12 +13,12 @@ import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 
-type Props = {
-  staffData: {
-    fullName: string
-    staffid: string
-  } | null
-}
+// type Props = {
+//   staffData: {
+//     fullName: string
+//     staffid: string
+//   } | null
+// }
 
 const StaffVerificationSchema = z.object({
   fullname: z.string().min(1, { message: 'Enter your full name' }),
@@ -28,7 +28,7 @@ export type StaffVerificationSchemaType = z.infer<
   typeof StaffVerificationSchema
 >
 
-const RetrievePage = ({ staffData }: Props) => {
+const RetrievePage = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const router = useRouter()
   const {
@@ -114,15 +114,11 @@ const RetrievePage = ({ staffData }: Props) => {
           </button>
         </div>
 
-        {staffData ? (
-          <div>No details found....</div>
-        ) : (
-          <div className='mt-3 mb-3 font-semibold text-gray-700'>
-            <p>Your details are -</p>
-            <p className='mb-3'>Full Name: {mutation.data?.data[0].fullName}</p>
-            <p className='mt-3'> Staff ID: {mutation.data?.data[0].staffid}</p>
-          </div>
-        )}
+        <div className='mt-3 mb-3 font-semibold text-gray-700'>
+          <p>Your details are -</p>
+          <p className='mb-3'>Full Name: {mutation.data?.data[0].fullName}</p>
+          <p className='mt-3'> Staff ID: {mutation.data?.data[0].staffid}</p>
+        </div>
       </div>
     </form>
   )
