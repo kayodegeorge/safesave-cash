@@ -1,125 +1,131 @@
-import { ValidationSchemaType } from '../components/CustomerRegistrationForm'
-import { VerifyCustomerSchemaType } from '../components/CustomerVerificationForm'
-import { ResetPasswordSchemaType } from '../components/ResetPasswordForm'
-import { SignUpSchemaType } from '../components/SignUpForm'
-import axios from 'axios'
-import { getSession } from 'next-auth/react'
-import { StaffVerificationSchemaType } from '../components/StaffVerification'
+import { ValidationSchemaType } from "../components/CustomerRegistrationForm";
+import { VerifyCustomerSchemaType } from "../components/CustomerVerificationForm";
+import { ResetPasswordSchemaType } from "../components/ResetPasswordForm";
+import { SignUpSchemaType } from "../components/SignUpForm";
+import axios from "axios";
+import { getSession } from "next-auth/react";
+import { StaffVerificationSchemaType } from "../components/StaffVerification";
 // import { SignUpSchemaType } from "../components/SignUpForm";
 // import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
 // import { ValidationSchemaType } from "../create/onboarding/page";
 
 type LoginResponse = {
-  status: boolean
+  status: boolean;
   data: {
-    id: number
-    email: string
-    phoneNumber: string
-    staffID: string
-    staffName: string
-    branch: string
-    sessionToken: string
-    accessToken: string
-    signUpDate: string
-  }
-  message: string
-}
+    id: number;
+    email: string;
+    phoneNumber: string;
+    staffID: string;
+    staffName: string;
+    branch: string;
+    sessionToken: string;
+    accessToken: string;
+    signUpDate: string;
+  };
+  message: string;
+};
 
 type RegistrationResponse = {
-  status: boolean
-  data: Array<any>
-  message: string
-}
+  status: boolean;
+  data: Array<any>;
+  message: string;
+};
 
-type VerifyCustomerResponse = {
-  status: boolean
-  data: any
-  message: string
-}
+export type VerifyCustomerResponse = {
+  status: boolean;
+  data: {
+    fullname: string;
+    sex: string;
+    foto: string;
+    addr: Array<string>;
+    fone: Array<string>;
+  };
+  message: string;
+};
 
 type ResetPasswordResponse = {
-  status: boolean
-  data: Array<any>
-  message: string
-}
+  status: boolean;
+  data: Array<any>;
+  message: string;
+};
 
 type CreateAccountResponse = {
-  status: boolean
+  status: boolean;
   data: {
-    $id: string
+    $id: string;
     Payload: {
-      $id: string
-      Id: string
-      Name: string
-    }
-    ErrorDetails: any
-    ResponseCode: any
-  }
-  message: string
-}
+      $id: string;
+      Id: string;
+      Name: string;
+    };
+    ErrorDetails: any;
+    ResponseCode: any;
+  };
+  message: string;
+};
 
 type VerifyStaffResponse = {
-  status: boolean
+  status: boolean;
   data: [
     {
-      id: string
-      staffid: string
-      fullName: string
+      id: string;
+      staffid: string;
+      fullName: string;
     }
-  ]
-  message: string
-}
+  ];
+  message: string;
+};
 
-export const API_URL = 'https://astrapolarismfb.onrender.com/v1'
+export const API_URL = "https://astrapolarismfb.onrender.com/v1";
 
 export const axios_server = axios.create({
   baseURL: API_URL,
   headers: {
-    Accept: '*/*',
-    'content-type': 'application/json',
+    Accept: "*/*",
+    "content-type": "application/json",
   },
-})
+});
 
 axios_server.interceptors.request.use(async (request) => {
   // Get the session
-  const session = await getSession()
+  const session = await getSession();
 
   // Add your desired session value to the request headers
   if (session) {
-    request.headers.Authorization = `Bearer ${session.accessToken}`
-    request.headers['sessionToken'] = session.sessionToken
+    request.headers.Authorization = `Bearer ${session.accessToken}`;
+    request.headers["sessionToken"] = session.sessionToken;
   }
 
-  return request
-})
+  return request;
+});
 
-export async function login(data: Record<'password' | 'userID', string>) {
-  const res = await axios_server.post<LoginResponse>('/staff-login', data)
-  return res.data
+export async function login(data: Record<"password" | "userID", string>) {
+  const res = await axios_server.post<LoginResponse>("/staff-login", data);
+  return res.data;
 }
 
 export async function registerStaff(data: SignUpSchemaType) {
   const res = await axios_server.post<RegistrationResponse>(
-    '/staff-registration',
+    "/staff-registration",
     data
-  )
-  return res.data
+  );
+  return res.data;
 }
 
 export async function verifyCustomer(data: VerifyCustomerSchemaType) {
   const res = await axios_server.post<VerifyCustomerResponse>(
-    '/verify-customer',
+    "/verify-customer",
     data
-  )
-  return res.data
+  );
+  return res.data;
 }
 
 export async function registerCustomer(data: ValidationSchemaType) {
   const res = await axios_server.post<VerifyCustomerResponse>(
-    '/customer-registration',
+    "/customer-registration",
     data
-  )
-  return res.data
+  );
+  return res.data;
 }
 
 export async function createAccount({
@@ -127,29 +133,29 @@ export async function createAccount({
   address,
   phoneNumber,
 }: {
-  bvn: string
-  address: string
-  phoneNumber: string
+  bvn: string;
+  address: string;
+  phoneNumber: string;
 }) {
   const res = await axios_server.post<CreateAccountResponse>(
-    '/create-account',
+    "/create-account",
     { bvn: bvn, address: address, phoneNumber: phoneNumber }
-  )
-  return res.data
+  );
+  return res.data;
 }
 
 export async function resetPassword(data: ResetPasswordSchemaType) {
   const res = await axios_server.put<ResetPasswordResponse>(
-    '/reset-password',
+    "/reset-password",
     data
-  )
-  return res.data
+  );
+  return res.data;
 }
 
 export async function verifyStaff(data: StaffVerificationSchemaType) {
   const res = await axios_server.post<VerifyStaffResponse>(
-    '/verify-staff',
+    "/verify-staff",
     data
-  )
-  return res.data
+  );
+  return res.data;
 }
