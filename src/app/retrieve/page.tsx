@@ -115,7 +115,7 @@ const RetrievePage = ({ staffData }: Props) => {
         </div>
 
         {staffData ? (
-          <div>No details found...</div>
+          <div>No details found....</div>
         ) : (
           <div className='mt-3 mb-3 font-semibold text-gray-700'>
             <p>Your details are -</p>
