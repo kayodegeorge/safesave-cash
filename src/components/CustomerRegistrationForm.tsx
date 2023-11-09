@@ -93,9 +93,7 @@ const CustomerRegistrationForm = ({
 
         {customerData ? (
           <div className='p-3 font-semibold'>
-            <div>Customer Info:</div>
-            <div>
-              <p className='mt-3'>Full Name: {customerData.fullname}</p>
+            <div className=''>
               <Image
                 src={customerData.foto}
                 alt={`${customerData.fullname}'s image`}
@@ -103,6 +101,7 @@ const CustomerRegistrationForm = ({
                 height={90}
                 className='mt-3'
               />
+              <p className='mt-3'>Full Name: {customerData.fullname}</p>
             </div>
           </div>
         ) : null}
@@ -248,12 +247,13 @@ const CustomerRegistrationForm = ({
             <span className='text-5xl text-green-600'>
               <GrStatusGood />
             </span>
+
             <p className='mt-3 font-semibold'>
               A/C is {secondMutation.data?.data.Payload.Name}
             </p>
 
             <Link href='/verify' className='text-orange-400 underline'>
-              Back to Home
+              Onboard another customer
             </Link>
           </div>
         </Modal>

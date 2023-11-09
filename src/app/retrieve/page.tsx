@@ -68,7 +68,7 @@ const RetrievePage = () => {
         size={25}
         className='absolute right-8 mb-2 text-orange-600 cursor-pointer'
         onClick={() => {
-          setModalOpen(false)
+          router.push('/register')
         }}
       />
       <Logo />
