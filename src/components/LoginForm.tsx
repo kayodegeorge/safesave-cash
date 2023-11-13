@@ -38,18 +38,17 @@ const LoginForm = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      if (data.status) {
+      if (data.status === false) {
+        toast.error(data.message || "An error occured");
+      } else {
         dispatch({ type: "LOGIN", payload: data.data });
+        router.push("/verify");
       }
     },
   });
 
   const onSubmit = async (data: SignInSchemaType) => {
     loginMutation.mutate(data);
-
-    !loginMutation.isPending && loginMutation.data?.status !== false
-      ? router.push("/verify")
-      : toast.error(loginMutation.data?.message);
   };
 
   return (
