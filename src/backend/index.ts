@@ -1,15 +1,12 @@
+import axios from "axios";
+
 import { ValidationSchemaType } from "../components/CustomerRegistrationForm";
 import { VerifyCustomerSchemaType } from "../components/CustomerVerificationForm";
 import { ResetPasswordSchemaType } from "../components/ResetPasswordForm";
 import { SignUpSchemaType } from "../components/SignUpForm";
-import axios from "axios";
-import { getSession } from "next-auth/react";
 import { StaffVerificationSchemaType } from "../components/StaffVerification";
-// import { SignUpSchemaType } from "../components/SignUpForm";
-// import { VerifyCustomerSchemaType } from "../components/uploadCustomerDocs";
-// import { ValidationSchemaType } from "../create/onboarding/page";
 
-type LoginResponse = {
+export type LoginResponse = {
   status: boolean;
   data: {
     id: number;
@@ -86,14 +83,22 @@ export const axios_server = axios.create({
   },
 });
 
-axios_server.interceptors.request.use(async (request) => {
-  // Get the session
-  const session = await getSession();
+const authUrls = ["/staff-login", "/staff-registration"];
 
-  // Add your desired session value to the request headers
-  if (session) {
-    request.headers.Authorization = `Bearer ${session.accessToken}`;
-    request.headers["sessionToken"] = session.sessionToken;
+axios_server.interceptors.request.use(function (request) {
+  const isAuthUrl = authUrls.some((url) => request.url?.includes(url));
+
+  if (isAuthUrl) return request;
+
+  const accessToken = JSON.parse(localStorage.getItem("user")!).accessToken;
+  const sessionToken = JSON.parse(localStorage.getItem("user")!).sessionToken;
+
+  if (accessToken) {
+    request.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  if (sessionToken) {
+    request.headers["sessionToken"] = sessionToken;
   }
 
   return request;

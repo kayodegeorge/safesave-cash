@@ -1,28 +1,17 @@
 "use client";
 
-import React from "react";
 import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
 
+import { useGlobalContext } from "../context/GlobalContext";
+
 const SignOutButton = () => {
-  const { data: session } = useSession();
   const router = useRouter();
+  const { dispatch } = useGlobalContext();
 
   const handleSignOut = () => {
-    toast.promise(
-      signOut({
-        redirect: false,
-        callbackUrl: "/",
-      }),
-      {
-        loading: "Signing out...",
-        success: (data) => {
-          return "Signed out successfully.";
-        },
-        error: "Error signing out.",
-      }
-    );
+    dispatch({ type: "LOGOUT" });
+    toast.success("Successfully logged out");
     router.push("/");
   };
 
