@@ -248,6 +248,8 @@ const CustomerRegistrationForm = ({
               <GrStatusGood />
             </span>
 
+            <p className='mt-3 font-semibold'>Name: {customerData?.fullname}</p>
+
             <p className='mt-3 font-semibold'>
               A/C is {secondMutation.data?.data.Payload.Name}
             </p>
