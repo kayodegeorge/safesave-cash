@@ -13,7 +13,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'SafeSave Customer Onbording Portal',
+  title: 'SafeSave Customer Onboarding Portal',
   description: 'Portal for SafeSave Customer Onboarding',
 }
 
