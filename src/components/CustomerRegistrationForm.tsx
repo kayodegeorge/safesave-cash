@@ -241,21 +241,23 @@ const CustomerRegistrationForm = ({
           }}
         >
           <div className='bg-white h-80 w-80 flex flex-col items-center justify-center gap-2 p-4 rounded-lg'>
-            <h3 className='text-xl font-bold text-center'>
+            <h3 className='font-semibold text-center'>
               {secondMutation.data?.message}
             </h3>
             <span className='text-5xl text-green-600'>
               <GrStatusGood />
             </span>
 
-            <p className='mt-3 font-semibold'>Name: {customerData?.fullname}</p>
+            <p className='mt-3 text-xl font-bold'>
+              Name: {customerData?.fullname}
+            </p>
 
-            <p className='mt-3 font-semibold'>
+            <p className='mt-3 font-semibold text-lg text-orange-600'>
               A/C is {secondMutation.data?.data.Payload.Name}
             </p>
 
             <Link href='/verify' className='text-orange-400 underline'>
-              Onboard another customer
+              New customer
             </Link>
           </div>
         </Modal>
