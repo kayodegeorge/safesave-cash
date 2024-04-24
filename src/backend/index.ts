@@ -73,7 +73,7 @@ type VerifyStaffResponse = {
   message: string
 }
 
-export const API_URL = 'https://astrapolarismfb.onrender.com/v1'
+export const API_URL = 'https://safesavekash.onrender.com/v1'
 
 export const axios_server = axios.create({
   baseURL: API_URL,
